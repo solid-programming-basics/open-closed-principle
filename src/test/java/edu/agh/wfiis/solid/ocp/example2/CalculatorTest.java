@@ -22,8 +22,9 @@ public class CalculatorTest {
         Assert.assertEquals(-1,result);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldFailWhenUnsupportedOperandPassed(){
-        underTest.calculate(new String[]{"1", "/", "2"});
+    @Test
+    public void shouldMultiplyValues(){
+        int result = underTest.calculate(new String[]{"2", "*", "3"});
+        Assert.assertEquals(6,result);
     }
 }
