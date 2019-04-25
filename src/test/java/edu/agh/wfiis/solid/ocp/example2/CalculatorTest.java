@@ -12,18 +12,24 @@ public class CalculatorTest {
 
     @Test
     public void shouldAddValues(){
-        int result = underTest.calculate(new String[]{"1", "+", "2"});
+        int result = underTest.calculate(new String[]{"1", "+", "2"}, new ConsolePrinter());
         Assert.assertEquals(3,result);
     }
 
     @Test
     public void shouldSubtractValues(){
-        int result = underTest.calculate(new String[]{"1", "-", "2"});
+        int result = underTest.calculate(new String[]{"1", "-", "2"}, new ConsolePrinter());
         Assert.assertEquals(-1,result);
+    }
+
+    @Test
+    public void shouldMultiplyValues() {
+        int result = underTest.calculate(new String[]{"3", "*", "5"}, new ConsolePrinter());
+        Assert.assertEquals(15, result) ;
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenUnsupportedOperandPassed(){
-        underTest.calculate(new String[]{"1", "/", "2"});
+        underTest.calculate(new String[]{"1", "/", "2"}, new ConsolePrinter());
     }
 }
