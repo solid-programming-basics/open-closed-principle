@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class Calculator {
 
-    private Map<String, OperationProvider> operations = new HashMap<>() {{
-        put("+", new AdditionProvider());
-        put("-", new SubtractionProvider());
-        put("*", new MultiplicationProvider());
-        put("/", new DivisionProvider());
+    private Map<String, Operable> operations = new HashMap<>() {{
+        put("+", new Addition());
+        put("-", new Subtraction());
+        put("*", new Multiplication());
+        put("/", new Division());
     }};
 
     public int calculate(int operand1, String operator, int operand2) {
@@ -21,29 +21,29 @@ public class Calculator {
     }
 }
 
-interface OperationProvider {
+interface Operable {
     int operate(int operand1, int operand2);
 }
 
-class AdditionProvider implements OperationProvider {
+class Addition implements Operable {
     public int operate(int operand1, int operand2) {
         return operand1 + operand2;
     }
 }
 
-class SubtractionProvider implements OperationProvider {
+class Subtraction implements Operable {
     public int operate(int operand1, int operand2) {
         return operand1 - operand2;
     }
 }
 
-class MultiplicationProvider implements OperationProvider {
+class Multiplication implements Operable {
     public int operate(int operand1, int operand2) {
         return operand1 * operand2;
     }
 }
 
-class DivisionProvider implements OperationProvider {
+class Division implements Operable {
     public int operate(int operand1, int operand2) {
         return operand1 / operand2;
     }

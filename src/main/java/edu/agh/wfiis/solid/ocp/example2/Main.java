@@ -7,6 +7,6 @@ public class Main {
         parser.parse(args);
 
         Calculator calculator = new Calculator();
-        System.out.println(calculator.calculate(parser.getOperand1(), parser.getOperation(), parser.getOperand2()));
+        System.out.println(calculator.calculate(parser.getOperand1(), parser.getOperator(), parser.getOperand2()));
     }
 }
