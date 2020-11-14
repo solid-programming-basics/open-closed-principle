@@ -1,27 +1,50 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Calculator {
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+    private Map<String, OperationProvider> operations = new HashMap<>() {{
+        put("+", new AdditionProvider());
+        put("-", new SubtractionProvider());
+        put("*", new MultiplicationProvider());
+        put("/", new DivisionProvider());
+    }};
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
+    public int calculate(int operand1, String operator, int operand2) {
+
+        if (!operations.containsKey(operator)) {
+            throw new IllegalArgumentException(operator + " is not supported!");
         }
-        throw new IllegalArgumentException(operator + " is not supported");
+        return operations.get(operator).operate(operand1, operand2);
     }
+}
 
-    public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.calculate(args);
+interface OperationProvider {
+    int operate(int operand1, int operand2);
+}
+
+class AdditionProvider implements OperationProvider {
+    public int operate(int operand1, int operand2) {
+        return operand1 + operand2;
+    }
+}
+
+class SubtractionProvider implements OperationProvider {
+    public int operate(int operand1, int operand2) {
+        return operand1 - operand2;
+    }
+}
+
+class MultiplicationProvider implements OperationProvider {
+    public int operate(int operand1, int operand2) {
+        return operand1 * operand2;
+    }
+}
+
+class DivisionProvider implements OperationProvider {
+    public int operate(int operand1, int operand2) {
+        return operand1 / operand2;
     }
 }
