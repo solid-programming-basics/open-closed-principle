@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Calculator {
 
-    private Map<String, Operable> operations = new HashMap<>() {{
+    private Map<String, Operable> operations = new HashMap<String, Operable>() {{
         put("+", new Addition());
         put("-", new Subtraction());
         put("*", new Multiplication());
