@@ -2,26 +2,33 @@ package edu.agh.wfiis.solid.ocp.example2;
 
 public class Calculator {
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
-
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+    public Number getResult(Triplet<Number, String, Number> calculationDetails) {
+        return calculate(calculationDetails.first, calculationDetails.second, calculationDetails.third);
     }
 
-    public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.calculate(args);
+    public Number getResult(Number firstOperand, String operator, Number secondOperand) {
+        return calculate(firstOperand, operator, secondOperand);
+    }
+
+    private Number calculate(Number firstOperand, String operator, Number secondOperand) {
+        Number result;
+
+        switch(operator){
+            case "+":
+                result = firstOperand.doubleValue() + secondOperand.doubleValue();
+                break;
+            case "-":
+                result = firstOperand.doubleValue() - secondOperand.doubleValue();
+                break;
+            case "*":
+                result = firstOperand.doubleValue() * secondOperand.doubleValue();
+                break;
+            case "/":
+                result = firstOperand.doubleValue() / secondOperand.doubleValue();
+                break;
+            default:
+                throw new IllegalArgumentException(operator + " is not supported");
+        }
+        return result;
     }
 }
