@@ -5,7 +5,7 @@ public class Parser {
     private String operator;
     private int operand2;
 
-    void parse(String[] args) {
+    public void parse(String[] args) {
         operand1 = Integer.parseInt(args[0]);
         operator = args[1];
         operand2 = Integer.parseInt(args[2]);
