@@ -1,27 +1,56 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import java.util.HashMap;
+import java.util.Map;
+
+class CalculatorArguments {
+    int arg1;
+    int arg2;
+    String operator;
+}
+
 public class Calculator {
+    private final Parser parser = new Parser();
+    private Map<String, Calculable> functionsByOperators = new HashMap<>() {{
+        put("+", new Addition());
+        put("-", new Subtraction());
+    }};
 
     public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
-
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
+        CalculatorArguments cArgs = parser.parseStringsArray(args);
+        if (!functionsByOperators.containsKey(cArgs.operator)) {
+            throw new IllegalArgumentException(cArgs.operator + " is not supported");
         }
-        throw new IllegalArgumentException(operator + " is not supported");
+
+        int result = functionsByOperators.get(cArgs.operator).calculate(cArgs.arg1, cArgs.arg2);
+        return result;
+    }
+
+    public void addOperation(String operator, Calculable o) {
+        functionsByOperators.put(operator, o);
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        calculator.calculate(args);
+        int res = calculator.calculate(args);
+        System.out.println(res);
+    }
+}
+
+interface Calculable {
+    int calculate(int val1, int val2);
+}
+
+class Addition implements Calculable {
+    @Override
+    public int calculate(int val1, int val2) {
+        return val1 + val2;
+    }
+}
+
+class Subtraction implements Calculable {
+    @Override
+    public int calculate(int val1, int val2) {
+        return val1 - val2;
     }
 }
