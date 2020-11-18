@@ -44,5 +44,13 @@ public class CookieFactoryTest {
         Assert.assertEquals("/applications/" + COOKIE_VALUE, result.getPath());
     }
 
+    @org.junit.Test
+    public void testForRequestHeader() {
+        Cookie result = underTest.create(HeaderType.REQUEST, COOKIE_VALUE);
+        Assert.assertEquals(COOKIE_VALUE, result.getValue());
+        Assert.assertEquals("default", result.getName());
+        Assert.assertEquals("/applications/" + COOKIE_VALUE, result.getPath());
+    }
+
 
 }
