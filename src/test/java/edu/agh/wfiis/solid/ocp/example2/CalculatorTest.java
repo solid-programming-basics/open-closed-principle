@@ -12,18 +12,18 @@ public class CalculatorTest {
 
     @Test
     public void shouldAddValues(){
-        int result = underTest.calculate(new String[]{"1", "+", "2"});
-        Assert.assertEquals(3,result);
+        double result = underTest.calculate(BiArithmeticOperationParser.parse("1", "+", "2"));
+        Assert.assertEquals(3,result, 0.000001);
     }
 
     @Test
     public void shouldSubtractValues(){
-        int result = underTest.calculate(new String[]{"1", "-", "2"});
-        Assert.assertEquals(-1,result);
+        double result = underTest.calculate(BiArithmeticOperationParser.parse("1", "-", "2"));
+        Assert.assertEquals(-1, result, 0.000001);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailWhenUnsupportedOperandPassed(){
-        underTest.calculate(new String[]{"1", "/", "2"});
+        underTest.calculate(BiArithmeticOperationParser.parse("1", "/", "2"));
     }
 }
