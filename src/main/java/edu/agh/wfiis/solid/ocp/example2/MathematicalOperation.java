@@ -3,14 +3,14 @@ package edu.agh.wfiis.solid.ocp.example2;
 public class MathematicalOperation
 {
     private int leftValue;
-    private int rightValue;
     private String operator;
+    private int rightValue;
 
-    public MathematicalOperation(int leftValue, int rightValue, String operator)
+    public MathematicalOperation(int leftValue, String operator, int rightValue)
     {
         this.leftValue = leftValue;
-        this.rightValue = rightValue;
         this.operator = operator;
+        this.rightValue = rightValue;
     }
 
     public int getLeftValue()
@@ -18,13 +18,13 @@ public class MathematicalOperation
         return leftValue;
     }
 
-    public int getRightValue()
-    {
-        return rightValue;
-    }
-
     public String getOperator()
     {
         return operator;
+    }
+    
+    public int getRightValue()
+    {
+        return rightValue;
     }
 }

@@ -5,20 +5,10 @@ public class Calculator {
     public int calculate(String[] args) {
         MathematicalOperation mOperation = MathematicalOperationParser.parse(args);
 
-
-        
-
-        // int result;
-        // if ("+".equals(operator)) {
-        //     result = val1 + val2;
-        //     System.out.println(result);
-        //     return result;
-        // } else if ("-".equals(operator)) {
-        //     result = val1 - val2;
-        //     System.out.println(result);
-        //     return result;
-        // }
-        // throw new IllegalArgumentException(operator + " is not supported");
+        Calculating calculation = OperationChooser.chooseOperation(mOperation.getOperator());
+        int result = calculation.calculate(mOperation.getLeftValue(), mOperation.getRightValue());
+        System.out.println(result); 
+        return result;
     }
 
     public static void main(String[] args) {
