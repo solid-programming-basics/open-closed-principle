@@ -1,27 +1,67 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import static java.util.Map.entry;
+import java.util.Set;
+import java.util.Map;
+
+
 public class Calculator {
+    private CalculatorInputParser inputParser;
+    private Map<String, Calculable> arithmeticalOperationsByOperators = Map.ofEntries(
+        entry("+", new Addition()),
+        entry("-", new Subtraction()),
+        entry("*", new Multiplication())
+    );
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
-
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+    {
+        this.inputParser = new CalculatorInputParser(this.arithmeticalOperationsByOperators.keySet());
     }
 
+    public int calculate(String[] args) {
+        CalculatorInput parsedUserInput = this.inputParser.parse(args);
+
+        int result = this.arithmeticalOperationsByOperators
+            .get(parsedUserInput.getOperator())
+            .calculate(parsedUserInput.getLeftOperand(), parsedUserInput.getRightOperand());
+
+        return result;
+    }
+ 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        calculator.calculate(args);
+        int result = calculator.calculate(args);
+
+        System.out.println("Result: " + result);
+    }
+}
+
+
+
+interface Calculable {
+    int calculate(int a, int b);
+}
+
+
+class Addition implements Calculable {
+
+    @Override
+    public int calculate(int a, int b) {
+        return a + b;
+    }
+}
+
+class Subtraction implements Calculable {
+
+    @Override
+    public int calculate(int a, int b) {
+        return a - b;
+    }
+}
+
+class Multiplication implements Calculable {
+
+    @Override
+    public int calculate(int a, int b) {
+        return a * b;
     }
 }
