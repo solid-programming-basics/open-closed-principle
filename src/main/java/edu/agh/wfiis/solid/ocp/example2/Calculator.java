@@ -8,6 +8,7 @@ public class Calculator {
     public int calculate(String[] args){
         parseInput(args);
         int result = calculateResult();
+
         return result;
     }
 
@@ -32,12 +33,20 @@ public class Calculator {
     private int calculateResult() {
         switch (operator){
             case "+":
-                return valueA + valueB;
+                return addition();
             case "-":
-                return valueA - valueB;
+                return subtraction();
             default:
                 throw new IllegalArgumentException("[" + operator + "] operator is not supported");
         }
+    }
+
+    private int addition() {
+        return valueA + valueB;
+    }
+
+    private int subtraction() {
+        return valueA - valueB;
     }
 
     public static void main(String[] args) {
