@@ -16,7 +16,7 @@ public class OperationChooser
     
     public static Calculating chooseOperation(String operator)
     {
-        Calculating calculation = OPERATION.get(operator).;
+        Calculating calculation = OPERATION.get(operator);
 
         if (calculation != null)
         {

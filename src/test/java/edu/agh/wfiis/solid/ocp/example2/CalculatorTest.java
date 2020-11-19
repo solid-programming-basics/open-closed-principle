@@ -23,7 +23,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void shouldSubtractValues(){
+    public void shouldMultiplyValues(){
         int result = underTest.calculate(new String[]{"1", "*", "2"});
         Assert.assertEquals(2, result);
     }

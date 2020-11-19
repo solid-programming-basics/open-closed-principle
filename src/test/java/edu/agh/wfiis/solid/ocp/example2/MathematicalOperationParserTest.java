@@ -12,8 +12,8 @@ public class MathematicalOperationParserTest {
     @Test
     public void shouldCreateCorrectMathOperation(){
         MathematicalOperation mOperation = MathematicalOperationParser.parse(new String[]{"1", "+", "2"});
-        Assert.assertEquals(1, mOperation.getLhsValues());
-        Assert.assertEquals(2, mOperation.getRhsValue());
+        Assert.assertEquals(1, mOperation.getLeftValue());
+        Assert.assertEquals(2, mOperation.getRightValue());
         Assert.assertEquals("+", mOperation.getOperator());
     }
 
