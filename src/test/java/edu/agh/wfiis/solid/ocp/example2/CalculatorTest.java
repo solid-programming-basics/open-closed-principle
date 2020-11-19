@@ -12,14 +12,20 @@ public class CalculatorTest {
 
     @Test
     public void shouldAddValues(){
-        int result = underTest.calculate(new String[]{"1", "+", "2"});
+        int result = underTest. calculate(new String[]{"1", "+", "2"});
         Assert.assertEquals(3,result);
     }
 
     @Test
     public void shouldSubtractValues(){
         int result = underTest.calculate(new String[]{"1", "-", "2"});
-        Assert.assertEquals(-1,result);
+        Assert.assertEquals(-1, result);
+    }
+
+    @Test
+    public void shouldMultiplyValues(){
+        int result = underTest.calculate(new String[]{"1", "*", "2"});
+        Assert.assertEquals(2, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
