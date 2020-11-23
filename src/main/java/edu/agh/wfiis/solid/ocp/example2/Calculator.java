@@ -1,27 +1,59 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+
+class Operation {
+    public double a;
+    public double b;
+    public String operator;
+}
+
+class Computer {
+    Map<String, Calculation> operations;
+
+    public Computer(Map<String, Calculation> _operations) {
+        this.operations = _operations;
+    }
+
+    public double calculate(Operation o) {
+
+        for (String key : operations.keySet()) {
+            if (key.equals(o.operator)) return operations.get(key).execute(o.a, o.b);
+        }
+
+        throw new IllegalArgumentException(o.operator + " is not supported");
+    }
+}
+
+interface Calculation {
+    public double execute(double a, double b);
+}
+
 public class Calculator {
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+    static public Operation parseInput(String[] args) {
+        Operation out = new Operation();
+        
+        out.a = Double.valueOf(args[0]);
+        out.b = Double.valueOf(args[2]);
+        out.operator = args[1];
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+        return out;
     }
 
     public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.calculate(args);
+        Operation op = parseInput(args);
+
+        Map<String, Calculation> operations = new TreeMap<>();
+
+        operations.put("+", (x, y) -> { return x + y; });
+        operations.put("-", (x, y) -> { return x - y; });
+        operations.put("/", (x, y) -> { if(y != 0) return x / y; return 0; });
+        operations.put("*", (x, y) -> { return x * y; });
+
+        Computer comp = new Computer(operations);
+        comp.calculate(op);
     }
 }
