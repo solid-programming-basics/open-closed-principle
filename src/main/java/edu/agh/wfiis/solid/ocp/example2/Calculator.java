@@ -24,15 +24,15 @@ public class Calculator {
         this.resultLogger = resultLogger;
     }
 
+    public double performCalculations(Object inputArgs){
+        return calculateFromInput(inputArgs);
+    }
+
     @Deprecated
     public int calculate(String[] args) {
         int result = (int) calculateFromInput(args);
         resultLogger.announceResult(result);
         return result;
-    }
-
-    public double performCalculations(Object inputArgs){
-        return calculateFromInput(inputArgs);
     }
 
     private double calculateFromInput(Object inputArgs){
