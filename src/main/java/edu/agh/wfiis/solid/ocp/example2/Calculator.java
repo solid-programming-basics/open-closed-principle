@@ -6,28 +6,42 @@ import java.util.Map;
 public class Calculator {
 
     private final Map<String, Operation> operators;
+    private final InputExtractor inputExtractor;
+    private final ResultLogger resultLogger;
 
-    Calculator(){
+    {
         operators = new HashMap<>();
         operators.put("+", new Add());
         operators.put("-", new Subtract());
     }
 
+    Calculator(){
+        this(new StringTabInputExtractor(), new ConsoleLogger());
+    }
+
+    Calculator(InputExtractor inputExtractor, ResultLogger resultLogger){
+        this.inputExtractor = inputExtractor;
+        this.resultLogger = resultLogger;
+    }
+
+    @Deprecated
     public int calculate(String[] args) {
-
-        InputExtractor input = new StringTabInputExtractor();
-
-        input.insertInput(args, operators);
-        int firstOperand = input.getFirstOperand();
-        int secondOperand = input.getSecondOperand();
-        Operation operation = input.getOperation();
-
-        int result = operation.execute(firstOperand, secondOperand);
-
-        ResultAnnouncer resultAnnouncer = new ConsoleAnnouncer();
-        resultAnnouncer.announceResult(result);
-        
+        int result = (int) calculateFromInput(args);
+        resultLogger.announceResult(result);
         return result;
+    }
+
+    public double performCalculations(Object inputArgs){
+        return calculateFromInput(inputArgs);
+    }
+
+    private double calculateFromInput(Object inputArgs){
+        inputExtractor.insertInput(inputArgs, operators);
+        double firstOperand = inputExtractor.getFirstOperand();
+        double secondOperand = inputExtractor.getSecondOperand();
+        Operation operation = inputExtractor.getOperation();
+
+        return operation.execute(firstOperand, secondOperand);
     }
 
     public static void main(String[] args) {
@@ -37,24 +51,24 @@ public class Calculator {
 }
 
 interface Operation{
-    int execute(int firstOperand, int secondOperand);
+    double execute(double firstOperand, double secondOperand);
 }
 
 interface InputExtractor{
     void insertInput(Object input, Map<String, Operation> operators);
-    int getFirstOperand();
-    int getSecondOperand();
+    double getFirstOperand();
+    double getSecondOperand();
     Operation getOperation();
 }
 
-interface ResultAnnouncer{
-    void announceResult(int result);
+interface ResultLogger {
+    void announceResult(double result);
 }
 
 class StringTabInputExtractor implements InputExtractor{
 
-    int firstOperand;
-    int secondOperand;
+    double firstOperand;
+    double secondOperand;
     Operation operation;
 
     @Override
@@ -69,12 +83,12 @@ class StringTabInputExtractor implements InputExtractor{
     }
 
     @Override
-    public int getFirstOperand() {
+    public double getFirstOperand() {
         return firstOperand;
     }
 
     @Override
-    public int getSecondOperand() {
+    public double getSecondOperand() {
         return secondOperand;
     }
 
@@ -86,22 +100,22 @@ class StringTabInputExtractor implements InputExtractor{
 
 class Add implements Operation{
     @Override
-    public int execute(int firstOperand, int secondOperand) {
+    public double execute(double firstOperand, double secondOperand) {
         return firstOperand + secondOperand;
     }
 }
 
 class Subtract implements Operation{
     @Override
-    public int execute(int firstOperand, int secondOperand) {
+    public double execute(double firstOperand, double secondOperand) {
         return firstOperand - secondOperand;
     }
 }
 
-class ConsoleAnnouncer implements ResultAnnouncer{
+class ConsoleLogger implements ResultLogger {
 
     @Override
-    public void announceResult(int result) {
+    public void announceResult(double result) {
         System.out.println(result);
     }
 }
