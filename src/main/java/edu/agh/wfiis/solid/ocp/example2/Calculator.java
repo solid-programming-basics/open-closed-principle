@@ -31,7 +31,7 @@ public class Calculator {
 
         Integer result = OperationProcessor.doIntegerOperation(input);
 
-        ResultPrinter<Integer> printer = new SuperIntegerPrinter();
+        SuperIntegerPrinter printer = new SuperIntegerPrinter();
 
         printer.print(result);
 
