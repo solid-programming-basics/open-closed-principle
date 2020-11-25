@@ -1,4 +1,4 @@
-package edu.agh.wfiis.solid.ocp.example2;
+// package edu.agh.wfiis.solid.ocp.example2;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -8,6 +8,16 @@ class Operation {
     public double a;
     public double b;
     public String operator;
+
+    static public Operation parseInput(String[] args) {
+        Operation out = new Operation();
+        
+        out.a = Double.valueOf(args[0]);
+        out.b = Double.valueOf(args[2]);
+        out.operator = args[1];
+
+        return out;
+    }
 }
 
 
@@ -36,27 +46,18 @@ class Computer {
 
 public class Calculator {
 
-    static public Operation parseInput(String[] args) {
-        Operation out = new Operation();
-        
-        out.a = Double.valueOf(args[0]);
-        out.b = Double.valueOf(args[2]);
-        out.operator = args[1];
-
-        return out;
-    }
-
     public static void main(String[] args) {
-        Operation op = parseInput(args);
+        Operation op = Operation.parseInput(args);
 
         Map<String, Calculation> operations = new TreeMap<>();
 
         operations.put("+", (x, y) -> { return x + y; });
         operations.put("-", (x, y) -> { return x - y; });
-        operations.put("/", (x, y) -> { if(y != 0) return x / y; return 0; });
-        operations.put("*", (x, y) -> { return x * y; });
+        operations.put("/", (x, y) -> { if(y != 0) return x / y; return 0.0; });
+        operations.put("m", (x, y) -> { return x * y; });
 
         Computer comp = new Computer(operations);
-        comp.calculate(op);
+        double result = comp.calculate(op);
+        System.out.println(result);
     }
 }
