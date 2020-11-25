@@ -1,36 +1,33 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Calculator {
 
+    private final Map<String, Operation> operators;
+
+    Calculator(){
+        operators = new HashMap<>();
+        operators.put("+", new Add());
+        operators.put("-", new Subtract());
+    }
+
     public int calculate(String[] args) {
-//        int val1 = Integer.valueOf(args[0]);
-//        int val2 = Integer.valueOf(args[2]);
-//        String operator = args[1];
 
-        InputExtractor input;   // todo wypelnic implementacja tutaj
+        InputExtractor input = new StringTabInputExtractor();
 
-        input.insertInput(args);
-        double firstOperand = input.getFirstOperand();
-        double secondOperand = input.getSecondOperand();
+        input.insertInput(args, operators);
+        int firstOperand = input.getFirstOperand();
+        int secondOperand = input.getSecondOperand();
         Operation operation = input.getOperation();
 
-        double result = operation.execute(firstOperand, secondOperand);
+        int result = operation.execute(firstOperand, secondOperand);
 
-        ResultAnnouncer resultAnnouncer; //todo wypelnic
-
+        ResultAnnouncer resultAnnouncer = new ConsoleAnnouncer();
         resultAnnouncer.announceResult(result);
-
-//        int result;
-//        if ("+".equals(operator)) {
-//            result = val1 + val2;
-//            System.out.println(result);
-//            return result;
-//        } else if ("-".equals(operator)) {
-//            result = val1 - val2;
-//            System.out.println(result);
-//            return result;
-//        }
-//        throw new IllegalArgumentException(operator + " is not supported");
+        
+        return result;
     }
 
     public static void main(String[] args) {
@@ -40,16 +37,71 @@ public class Calculator {
 }
 
 interface Operation{
-    double execute(double firstOperand, double secondOperand);
+    int execute(int firstOperand, int secondOperand);
 }
 
 interface InputExtractor{
-    void insertInput(Object input);
-    double getFirstOperand();
-    double getSecondOperand();
+    void insertInput(Object input, Map<String, Operation> operators);
+    int getFirstOperand();
+    int getSecondOperand();
     Operation getOperation();
 }
 
 interface ResultAnnouncer{
-    void announceResult(double result);
+    void announceResult(int result);
+}
+
+class StringTabInputExtractor implements InputExtractor{
+
+    int firstOperand;
+    int secondOperand;
+    Operation operation;
+
+    @Override
+    public void insertInput(Object input, Map<String, Operation> operators) {
+        String[] args = (String[]) input;
+        firstOperand = Integer.parseInt(args[0]);
+        secondOperand = Integer.parseInt(args[2]);
+        String operator = args[1];
+        operation = operators.get(operator);
+        if (operation == null)
+            throw new IllegalArgumentException(operator + " is not supported");
+    }
+
+    @Override
+    public int getFirstOperand() {
+        return firstOperand;
+    }
+
+    @Override
+    public int getSecondOperand() {
+        return secondOperand;
+    }
+
+    @Override
+    public Operation getOperation() {
+        return operation;
+    }
+}
+
+class Add implements Operation{
+    @Override
+    public int execute(int firstOperand, int secondOperand) {
+        return firstOperand + secondOperand;
+    }
+}
+
+class Subtract implements Operation{
+    @Override
+    public int execute(int firstOperand, int secondOperand) {
+        return firstOperand - secondOperand;
+    }
+}
+
+class ConsoleAnnouncer implements ResultAnnouncer{
+
+    @Override
+    public void announceResult(int result) {
+        System.out.println(result);
+    }
 }
