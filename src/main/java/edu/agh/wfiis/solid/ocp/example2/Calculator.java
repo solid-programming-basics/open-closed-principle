@@ -10,6 +10,12 @@ class Operation {
     public String operator;
 }
 
+
+interface Calculation {
+    public double execute(double a, double b);
+}
+
+
 class Computer {
     Map<String, Calculation> operations;
 
@@ -27,9 +33,6 @@ class Computer {
     }
 }
 
-interface Calculation {
-    public double execute(double a, double b);
-}
 
 public class Calculator {
 
