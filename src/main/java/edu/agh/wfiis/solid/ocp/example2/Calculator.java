@@ -25,3 +25,18 @@ public class Calculator {
         calculator.calculate(args);
     }
 }
+
+interface OperationWithTwoOperands{
+    void execute(double firstOperand, double secondOperand);
+}
+
+interface InputExtractor{
+    void insertInput();
+    double getFirstOperand();
+    double getSecondOperand();
+    OperationWithTwoOperands getOperation();
+}
+
+interface ResultAnnouncer{
+    void announceResult(double result);
+}
