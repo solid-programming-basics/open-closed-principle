@@ -20,7 +20,7 @@ public class CalculatorProgram{
 class Calculator {
 
     private final List<BiArithmeticOperation> supportedOperations = List.of(
-        new Add(), new Subtract(), new Multiply()
+        new Add(), new Subtract(), new Multiply(), new Divide()
     );
     private final Map<String, BiArithmeticOperation> supportedOperationsByOperators = supportedOperations.stream().collect(
             Collectors.toMap(BiArithmeticOperation::getOperator, biArithmeticOperation -> biArithmeticOperation)
@@ -38,10 +38,15 @@ class Calculator {
     }
 }
 
-interface BiArithmeticOperation{
+interface HavingArithmeticOperator{
     String getOperator();
+}
+
+interface BiArithmeticallyPerformable{
     Double perform(Double lhs, Double rhs);
 }
+
+interface BiArithmeticOperation extends HavingArithmeticOperator, BiArithmeticallyPerformable{ }
 
 class Add implements BiArithmeticOperation{
 
@@ -79,6 +84,22 @@ class Multiply implements BiArithmeticOperation{
     @Override
     public Double perform(Double lhs, Double rhs) {
         return rhs*lhs;
+    }
+}
+
+class Divide implements BiArithmeticOperation{
+
+    @Override
+    public String getOperator() {
+        return "/";
+    }
+
+    @Override
+    public Double perform(Double lhs, Double rhs) {
+        if(rhs==0){
+            return 0d;
+        }
+        return lhs/rhs;
     }
 }
 
