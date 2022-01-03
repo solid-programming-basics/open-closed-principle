@@ -1,27 +1,46 @@
-package edu.agh.wfiis.solid.ocp.example2;
 
-public class Calculator {
+interface CalculatoringDesignPattern{
+    int Calculate(int ValOne, int ValTwo);
+}
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+class AddNumbers implements CalculatoringDesignPattern{
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+    int Calculate(int ValOne, int ValTwo){
+        System.out.println(ValOne + ValTwo);
+        return ValOne + ValTwo;
     }
 
-    public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.calculate(args);
+}
+
+class SubtractNumbers implements CalculatoringDesignPattern{
+
+    int Calculate(int ValOne, int ValTwo){
+        System.out.println(ValOne - ValTwo);
+        return ValOne - ValTwo;
     }
+
+}
+
+class MultiplyNumbers implements CalculatoringDesignPattern{
+
+    int Calculate(int ValOne, int ValTwo){
+        System.out.println(ValOne * ValTwo);
+        return ValOne * ValTwo;
+    }
+
+}
+
+
+public class Calculator{
+
+    private Map<char, CalculatoringDesignPattern> TypesOfCalculations;
+
+    TypesOfCalculations.put("+", AddNumbers);
+    TypesOfCalculations.put("-", SubtractNumbers);
+    TypesOfCalculations.put("*", MultiplyNumbers);
+
+    int Calculate(int ValOne, int ValTwo, char operator){
+        return this.TypesOfCalculations.get(operator).Calculate(ValOne, ValTwo);
+    }
+
 }
