@@ -10,6 +10,7 @@ public class CalculatorTest {
 
     private final Calculator underTest = new Calculator();
 
+
     @Test
     public void shouldAddValues(){
         int result = underTest.calculate(new String[]{"1", "+", "2"});
@@ -26,4 +27,5 @@ public class CalculatorTest {
     public void shouldFailWhenUnsupportedOperandPassed(){
         underTest.calculate(new String[]{"1", "/", "2"});
     }
+
 }
