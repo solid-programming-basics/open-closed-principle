@@ -1,27 +1,35 @@
 package edu.agh.wfiis.solid.ocp.example2;
+import java.util.HashMap;
 
 public class Calculator {
+    private final HashMap<String, MathOperable<Integer, Integer, Integer>> mathOperations;
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+    Calculator() {
+        this.mathOperations = new HashMap<>();
+        this.mathOperations.put("+", this::add);
+        this.mathOperations.put("-", this::subtract);
+    }
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
+    private Integer add(Integer first_value, Integer second_value){
+        return first_value + second_value;
+    }
+
+    private Integer subtract(Integer first_value, Integer second_value){
+        return first_value - second_value;
+    }
+
+    public Integer calculate(String[] args) {
+        InputParser input = new InputParser(args);
+
+        try {
+            return this.mathOperations.get(input.getOperator()).call(input.getFirstValue(), input.getSecondValue());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(input.getOperator() + " is not supported");
         }
-        throw new IllegalArgumentException(operator + " is not supported");
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        calculator.calculate(args);
+        System.out.println(calculator.calculate(args));
     }
 }
