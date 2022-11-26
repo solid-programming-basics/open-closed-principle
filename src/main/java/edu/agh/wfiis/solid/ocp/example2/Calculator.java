@@ -2,26 +2,22 @@ package edu.agh.wfiis.solid.ocp.example2;
 
 public class Calculator {
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+    ArgsParser parser;
+    public Calculator(ArgsParser parser)
+    {
+        this.parser = parser;
+    }
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+    public int calculate(String[] args) {
+        Number a = parser.parseNumber(args[0]);
+        Number b = parser.parseNumber(args[2]);
+        Operator operator = parser.parseOperator(args[1]);
+        return operator.calculate(a, b).intValue();
     }
 
     public static void main(String[] args) {
-        Calculator calculator = new Calculator();
+        ArgsParser parser = new ArgsParser();
+        Calculator calculator = new Calculator(parser);
         calculator.calculate(args);
     }
 }
