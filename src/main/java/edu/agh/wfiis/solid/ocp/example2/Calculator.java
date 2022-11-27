@@ -3,7 +3,7 @@ package edu.agh.wfiis.solid.ocp.example2;
 import java.util.Map;
 
 public class Calculator {
-    final private Map<String, MathOperation> mathOperations = Map.of(
+    private final Map<String, MathOperation> mathOperations = Map.of(
             "+", new Addition(),
             "-", new Subtraction(),
             "/", new Division(),
