@@ -8,7 +8,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CalculatorTest {
 
-    private final Calculator underTest = new Calculator();
+    private final Calculator underTest = Calculator.addAndSubtract();
 
     @Test
     public void shouldAddValues(){
