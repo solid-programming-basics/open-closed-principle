@@ -1,27 +1,36 @@
 package edu.agh.wfiis.solid.ocp.example2;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class Calculator {
 
-    public int calculate(String[] args) {
-        int val1 = Integer.valueOf(args[0]);
-        int val2 = Integer.valueOf(args[2]);
-        String operator = args[1];
+    private Map<String, Computable> operations;
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
+    public Calculator(Map<String, Computable> operations) {
+
+        this.operations = operations;
+    }
+
+    public int calculate(int first, int second, String operator) {
+
+        if (this.operations.containsKey(operator)) {
+            return operations.get(operator).getResult(first, second);
         }
-        throw new IllegalArgumentException(operator + " is not supported");
+        else {
+            throw new IllegalArgumentException(operator + " is not supported");
+        }
     }
 
     public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-        calculator.calculate(args);
+
+        Map<String, Computable> operations = Map.of(
+            "+", new Addition(),  
+            "-", new Subtraction()
+        );
+        Calculator calculator = new Calculator(operations);
+
+        Arguments arguments = ArgumentsParser.parse(args);
+        System.out.println(calculator.calculate(arguments.first, arguments.second, arguments.operator));
     }
 }
