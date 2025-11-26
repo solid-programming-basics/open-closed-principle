@@ -7,17 +7,8 @@ public class Calculator {
         int val2 = Integer.valueOf(args[2]);
         String operator = args[1];
 
-        int result;
-        if ("+".equals(operator)) {
-            result = val1 + val2;
-            System.out.println(result);
-            return result;
-        } else if ("-".equals(operator)) {
-            result = val1 - val2;
-            System.out.println(result);
-            return result;
-        }
-        throw new IllegalArgumentException(operator + " is not supported");
+        Operation operation = OperationBuilder.getOperation(operator);
+        return operation.doOperation(val1, val2);
     }
 
     public static void main(String[] args) {
